@@ -1,0 +1,72 @@
+
+
+.table1 {
+    border-collapse: collapse;
+    border: 2px solid #999;
+    
+}
+
+.table1 td {
+    border: 1px solid #999;
+    /* background: rgb(190, 190, 194); */
+    width: 3em;
+    height: 3em;
+    
+    
+}
+
+.btn-circle-flat {
+    display: inline-block;
+    text-decoration: none;
+    background: #87befd;
+    color: #FFF;
+    width: 120px;
+    height: 120px;
+    line-height: 120px;
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+    transition: .4s;
+  }
+  
+  .btn-circle-flat:hover {
+    background: #668ad8;
+  }
+
+  .red{
+    background: #e672bf !important;
+  }
+    
+  .red:hover {
+    background: #b45a96 !important;
+  }
+  .cp_iptxt {
+	position: relative;
+	width: 80%;
+	margin: 40px 3%;
+}
+.cp_iptxt input[type='text'] {
+	font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0.3em;
+	transition: 0.3s;
+	letter-spacing: 1px;
+	color: #201e1e;
+	border: 1px solid #1b2538;
+	border-radius: 4px;
+}
+.ef input[type='text']:focus {
+	border: 1px solid #19cae9;
+	outline: none;
+  box-shadow: 0 0 5px 1px #1962e9;
+  
+}
+.back {
+  filter:brightness(70%);
+  cursor:pointer;
+}
+.flash {
+  filter:brightness(120%);
+  box-shadow:1px 1px 5px 2px  #dddada ;
+}
