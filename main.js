@@ -326,4 +326,4 @@ console.log('  - rowCount   : セルの一辺の数（最大60)');
 console.log('  - colorCount : 色の種類（最大6）');
 console.log('*******************************************************');
 var manager = new GameManager();
-manager.start(12, 4);
+manager.start(12, 3);
