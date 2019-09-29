@@ -125,7 +125,7 @@ var GameManager = function () {
     this.myCellsPerColumn = [];
     this.score = 0;
 }
-GameManager.prototype.start = function (rowCount, colorCount) {
+GameManager.prototype.start = function (rowCount, columnCount, colorCount) {
     // プロパティの初期化
     if (rowCount < 1) {
         this.rowCount = 1;
@@ -133,6 +133,13 @@ GameManager.prototype.start = function (rowCount, colorCount) {
         this.rowCount = 60;
     } else {
         this.rowCount = rowCount;
+    }
+    if (columnCount < 1) {
+        this.columnCount = 1;
+    } else if (columnCount > 60) {
+        this.columnCount = 60;
+    } else {
+        this.columnCount = columnCount;
     }
 
     this.colorCount = colorCount;
@@ -149,9 +156,9 @@ GameManager.prototype.start = function (rowCount, colorCount) {
     tbodyElm.innerHTML = '';
     for (var i = 1; i <= this.rowCount; i++) {
         var trElm = document.createElement('tr');
-        for (var j = 1; j <= this.rowCount; j++) {
+        for (var j = 1; j <= this.columnCount; j++) {
             var tdElm = document.createElement('td');
-            var address = (i - 1) * this.rowCount + j;
+            var address = (i - 1) * this.columnCount + j;
             var color;
             var rnd = (Math.floor(Math.random() * this.colorCount));
             if (rnd === 0) {
@@ -184,25 +191,25 @@ GameManager.prototype.start = function (rowCount, colorCount) {
             }
             var aroundAd = aroundCell.address;
             // 上
-            if (myAd - this.rowCount > 0) {
-                if (myAd - this.rowCount === aroundAd) {
+            if (myAd - this.columnCount > 0) {
+                if (myAd - this.columnCount === aroundAd) {
                     myCell.aroundCells.top = aroundCell;
                 }
             }
             // 下
-            if (myAd + this.rowCount <= this.rowCount * this.rowCount) {
-                if (myAd + this.rowCount === aroundAd) {
+            if (myAd + this.columnCount <= this.rowCount * this.columnCount) {
+                if (myAd + this.columnCount === aroundAd) {
                     myCell.aroundCells.bottom = aroundCell;
                 }
             }
             // 左
-            if ((myAd - 1) % this.rowCount > 0) {
+            if ((myAd - 1) % this.columnCount > 0) {
                 if (myAd - 1 === aroundAd) {
                     myCell.aroundCells.left = aroundCell;
                 }
             }
             // 右
-            if ((myAd) % this.rowCount > 0) {
+            if ((myAd) % this.columnCount > 0) {
                 if (myAd + 1 === aroundAd) {
                     myCell.aroundCells.right = aroundCell;
                 }
@@ -214,12 +221,12 @@ GameManager.prototype.start = function (rowCount, colorCount) {
 
     // myCellsPerColumnの設定
     var topCells = this.myCells.filter(myCell => {
-        return myCell.address <= this.rowCount;
+        return myCell.address <= this.columnCount;
     });
 
     topCells.forEach(topCell => {
         var perColumn = this.myCells.filter(myCell => {
-            return (myCell.address - topCell.address) % this.rowCount === 0
+            return (myCell.address - topCell.address) % this.columnCount === 0
         });
         this.myCellsPerColumn.push(perColumn);
     });
@@ -321,9 +328,10 @@ GameManager.prototype.reset = function () {
 console.log('*******************************************************');
 console.log('  以下で設定を変えて遊べます。');
 console.log(' ');
-console.log('  manager.start(rowCount, colorCount);');
-console.log('  - rowCount   : セルの一辺の数（最大60)');
-console.log('  - colorCount : 色の種類（最大6）');
+console.log('  manager.start(rowCount, columnCount, colorCount);');
+console.log('  - rowCount    : 一行のセル数（最大60)');
+console.log('  - columnCount : 一列のセル数（最大60)');
+console.log('  - colorCount  : 色の種類（最大6）');
 console.log('*******************************************************');
 var manager = new GameManager();
-manager.start(12, 3);
+manager.start(13, 10, 3);
