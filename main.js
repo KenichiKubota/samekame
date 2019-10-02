@@ -320,7 +320,31 @@ GameManager.prototype.reset = function () {
     })
 
     if (emptys.length === this.myCells.length) {
+        // クリアメッセージの表示
         document.getElementById('clearMsg').style.display = 'block';
+        // ローカルストレージから過去最高点を取得
+        var jsonData = localStorage.getItem('samegame');
+        var oldResultObj = JSON.parse(jsonData);
+
+        // 今回の得点が過去最高点を上回ってる場合、ローカルストレージに保存
+        if (this.score > oldResultObj.score) {
+            // 
+            var dt = new Date();
+            var y = dt.getFullYear();
+            var m = ("00" + (dt.getMonth() + 1)).slice(-2);
+            var d = ("00" + dt.getDate()).slice(-2);
+            var today = y + "/" + m + "/" + d;
+
+            var newResultObj = {
+                playAt: today
+                , score: this.score
+            }
+
+            var jsonData = JSON.stringify(newResultObj);
+            localStorage.setItem('samegame', jsonData);
+            document.getElementById('highScoreMsg').innerText = 'ハイスコア：' + newResultObj.score;
+        }
+
     }
 
 
@@ -333,5 +357,34 @@ console.log('  - rowCount    : 一行のセル数（最大60)');
 console.log('  - columnCount : 一列のセル数（最大60)');
 console.log('  - colorCount  : 色の種類（最大6）');
 console.log('*******************************************************');
+
+// スコア設定
+var jsonData = localStorage.getItem('samegame');
+var oldResultObj = JSON.parse(jsonData);
+if (oldResultObj) {
+    var msg = 'ハイスコア：' + oldResultObj.score;
+    document.getElementById('highScoreMsg').innerText = msg;
+} else {
+    var dt = new Date();
+    var y = dt.getFullYear();
+    var m = ("00" + (dt.getMonth() + 1)).slice(-2);
+    var d = ("00" + dt.getDate()).slice(-2);
+    var today = y + "/" + m + "/" + d;
+    var newResultObj = {
+        playAt: today
+        , score: 0
+    }
+
+    var jsonData = JSON.stringify(newResultObj);
+    localStorage.setItem('samegame', jsonData);
+}
+
+// ゲーム開始
 var manager = new GameManager();
 manager.start(13, 10, 3);
+
+// リセットボタン設定
+document.getElementById('resetBTN').addEventListener(
+    'click'
+    , manager.start.bind(manager, 13, 10, 3)
+);
