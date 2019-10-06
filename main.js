@@ -240,8 +240,32 @@ GameManager.prototype.start = function (rowCount, columnCount, colorCount) {
     // gropuNumの設定
     this.resetAllGroupNum();
 
+    // セルの数を表示する
+    this.countColors();
+
     // 表示
     this.showAll();
+}
+
+// セルの数を表示する
+GameManager.prototype.countColors = function () {
+    var color1 = 0;
+    var color2 = 0;
+    var color3 = 0;
+    this.myCells.forEach(myCell => {
+        if (myCell.color === COLORS.NO1) {
+            color1++;
+        }
+        if (myCell.color === COLORS.NO2) {
+            color2++;
+        }
+        if (myCell.color === COLORS.NO3) {
+            color3++;
+        }
+    });
+    document.getElementById('color1').textContent = color1;
+    document.getElementById('color2').textContent = color2;
+    document.getElementById('color3').textContent = color3;
 }
 // 全セルのgroupNumをリセットする
 GameManager.prototype.resetAllGroupNum = function () {
@@ -313,6 +337,9 @@ GameManager.prototype.reset = function () {
 
     // スコア再設定
     document.getElementById('scoreMsg').innerText = this.score;
+
+    // セルの数を再設定
+    this.countColors();
 
     //　クリア判定
     var emptys = this.myCells.filter(myCell => {
